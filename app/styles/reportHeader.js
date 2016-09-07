@@ -2,51 +2,67 @@ module.exports = {
   headerStyle: {
     width: '100%',
     fontSize: '18px',
-    backgroundColor: '#E6E6E6',
-    borderTopRightRadius: '10px',
-    borderTopLeftRadius: '10px',
+    backgroundColor: '#F0F8FF',
     // borderBottom: '0.5px ridge black',
-    padding: '15px 0'
+    padding: '5px 0'
   },
 
-  headerLinkStyle: {
+  testName: {
+    width: '40%',
+    display: 'inline-block'
+  },
+
+  testLink: {
     marginLeft: '15px',
     fontSize: '18px',
     fontFamily: 'Cutive Mono',
     cursor: 'pointer'
   },
 
-  successBadge: {
-    margin: '0 25px 0 0',
-    padding: '3px',
-    width: '90px',
-    color: 'white',
-    backgroundColor: '#3c763d',
-    float: 'right',
-    textAlign: 'center',
-    borderBottomRightRadius: '5px',
-    borderBottomLeftRadius: '5px',
-    borderTopRightRadius: '5px',
-    borderTopLeftRadius: '5px'
+  date: {
+    width: '20%',
+    display: 'inline-block'
   },
 
-  failedBadge: {
-    margin: '0 25px 0 0',
-    padding: '3px',
-    width: '90px',
-    color: 'white',
-    backgroundColor: '#a94442',
-    float: 'right',
-    textAlign: 'center',
-    borderBottomRightRadius: '5px',
-    borderBottomLeftRadius: '5px',
-    borderTopRightRadius: '5px',
-    borderTopLeftRadius: '5px'
+  toggleTags: {
+    width: '10%',
+    display: 'inline-block'
   },
 
-  toggleLink: {
-    marginLeft: '20px',
+  toggle: {
     textDecoration: 'underline',
     cursor: 'pointer'
+  },
+
+  badge: {
+    width: '30%',
+    display: 'inline-block',
+    textAlign: 'center'
+  },
+
+  success: {
+    display: 'inline',
+    width: '210px',
+    padding: '5px',
+    marginRight: '15px',
+    backgroundColor: '#3c763d',
+    color: 'white',
+    borderBottomRightRadius: '5px',
+    borderBottomLeftRadius: '5px',
+    borderTopRightRadius: '5px',
+    borderTopLeftRadius: '5px'
+  },
+
+  failed: {
+    display: 'inline',
+    width: '210px',
+    padding: '5px',
+    marginRight: '15px',
+    backgroundColor: '#a94442',
+    color: 'white',
+    borderBottomRightRadius: '5px',
+    borderBottomLeftRadius: '5px',
+    borderTopRightRadius: '5px',
+    borderTopLeftRadius: '5px'
   }
 }

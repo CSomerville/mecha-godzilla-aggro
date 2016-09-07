@@ -6,15 +6,16 @@
   "version": "1.0.0",
   "main": "aggroServer.js",
   "scripts": {
-    "deploy": "npm run cleaninstall && npm run build && npm run touch && npm run background",
     "background": "nohup node aggroServer > srvOut.txt 2> srvErr.txt < srvIn.txt &",
-    "touch": "touch srvOut.txt srvErr.txt srvIn.txt",
-    "kill": "kill $(ps | awk '/node/ && !/awk/ {print $1}')",
-    "start": "node aggroServer.js",
-    "watch": "nodemon aggroServer.js",
+    "build": "gulp build",
     "clean": "rm -rf ./node_modules && npm cache clean",
     "cleaninstall": "npm run clean && npm install",
-    "build": "gulp build"
+    "deploy": "npm run cleaninstall && npm run build && npm run touch && npm run background",
+    "kill": "kill $(ps | awk '/aggroServer/ && !/awk/ {print $1}') || true",
+    "killport": "kill $(lsof -i :9876 | awk '/LISTEN/ {print $2}') || true",
+    "start": "node aggroServer.js",
+    "touch": "touch srvOut.txt srvErr.txt srvIn.txt",
+    "watch": "nodemon aggroServer.js"
   },
   "babel": {
     "presets": ["es2015", "react"]
@@ -31,6 +32,7 @@
     "glob": "5.0.1",
     "history": "^1.13.0",
     "lodash.uniq": "^4.5.0",
+    "moment": "^2.14.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-router": "^1.0.0",

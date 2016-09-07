@@ -3,6 +3,7 @@
 const express = require('express');
 const fs = require('fs');
 const glob = require('glob');
+const moment = require('moment');
 
 module.exports = function (app, conf) {
 
@@ -16,7 +17,7 @@ module.exports = function (app, conf) {
   };
 
   function getMGRuns(environment) {
-    var files = glob.sync(jsonSearchStr);
+    const files = glob.sync(jsonSearchStr);
     runs = {
       qa: [],
       stage: []
@@ -24,14 +25,18 @@ module.exports = function (app, conf) {
     files.forEach(function (path) {
       const json = JSON.parse(fs.readFileSync(path, {encoding : 'utf8'}));
       const dayDiff = getDayDifference(json.timestamp);
-      if (json.results.env === environment && dayDiff <= 30) {
+      if (json.results.env === environment && dayDiff < 14) {
         const reportObj = getLinkInfo(path);
+        const lowerName = reportObj.jobName.toLowerCase();
+        if (lowerName.indexOf('sauce') >= 0 || lowerName.indexOf('cleanup') >= 0) {
+          return;
+        }
         const obj = {
             link : reportObj.link,
-            jobName : reportObj.jobName,
+            jobName : reportObj.jobName.replace('MechaGodzilla', ''),
             mgReporterObj : json,
             env: json.results.env,
-            timestamp: json.timestamp
+            timestamp: formatDate(json.timestamp)
         };
         if (runs.hasOwnProperty(json.results.env)) {
           runs[json.results.env].push(obj);
@@ -41,6 +46,11 @@ module.exports = function (app, conf) {
       }
     });
     const foundTests = runs.hasOwnProperty(environment) ? runs[environment] : [];
+    if (foundTests.length > 0) {
+      foundTests.sort(function (t1, t2) {
+        return (t1.jobName <= t2.jobName) ? -1 : 1;
+      });
+    }
     return { tests: foundTests };
   }
 
@@ -50,6 +60,13 @@ module.exports = function (app, conf) {
     const runDate = new Date(testDateArray.join(' '));
     const today = new Date();
     return Math.floor((today - runDate) / 86400000);
+  }
+
+  function formatDate(timestamp) {
+    const testDateArray = timestamp.split(', ')[1].split(' ');
+    testDateArray[1] = testDateArray[1].replace(/[a-z]/gi, '');
+    const runDate = new Date(testDateArray.join(' '));
+    return moment(runDate).format('ddd, MMM Do');
   }
 
   function getLinkInfo(jsonPath) {

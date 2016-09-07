@@ -4,6 +4,50 @@
     <script src="https://npmcdn.com/react@15.3.1/dist/react.min.js"></script>
     <script src="https://npmcdn.com/react-dom@15.3.1/dist/react-dom.min.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <style>
+      .loader {
+        width: 150px;
+        height: auto;
+        animation: spinner 1.5s ease-in-out infinite;
+        -webkit-animation: spinner 1.5s ease-in-out infinite;
+      }
+
+      @-webkit-keyframes spinner {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes spinner {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .test-container:first-of-type, .test-container:first-of-type .report-header {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+
+      .test-container:last-of-type, .test-container:last-of-type > div:last-child {
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      .test-container:last-of-type {
+        border-bottom: 1px solid black;
+      }
+
+      .report-header:hover {
+        background-color: rgb(248,248,248) !important;
+      }
+
+    </style>
   </head>
   <body>
     <div id="app">{{ html|safe }}</div>

@@ -23,7 +23,7 @@ class TestContainer extends React.Component {
     const passed = reportObj.stats.failures === 0;
 
     const titles = uniq(Object.keys(reportObj.tests).join(' ').match(/@[a-z0-9\-]*\s/gi));
-    const container = this.state.showTags ? <ReportContainer titles={titles}></ReportContainer> : "";
+    const container = this.state.showTags ? <ReportContainer titles={titles}></ReportContainer> : null;
     return (
       <div style={styles.containerStyle} className='test-container'>
         <ReportHeader test={testObj} showing={this.state.showTags} onToggleDisplay={this.onToggleDisplay} passed={passed}></ReportHeader>

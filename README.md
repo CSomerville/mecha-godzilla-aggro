@@ -5,6 +5,12 @@ reporter displays the results of tests based on what server is being requested.
 All reports older than 14 days are ignored, showing only the most recent results.
 The returned results show successes/failures and links to the Jenkins reports.
 
+[NOTE]: To expand filtering by teams, see the filterTests functions in TestsWrapper.js
+It works by checking whether a test name is in the array for a team if the team
+is not set to all. Right now only works for qa finding and only for a few tests.
+Expand the object in teamJobs.js to include more of the names. The names to add are
+the names of the Jenkins jobs, for example: "MechaGodzilla Buyer Account Tests - Base (QA)"
+
 ##Server Configuration - Development
 
 The server can run in two states, one for development and one for deployment.

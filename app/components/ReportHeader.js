@@ -13,20 +13,32 @@ class ReportHeader extends React.Component {
   }
 
   render() {
-    styles.headerLinkStyle.color = this.props.passed ? '#3c763d' : '#a94442';
-
+    styles.testLink.color = this.props.passed ? '#3c763d' : '#a94442';
+    const totalTests = this.props.test.mgReporterObj.results.stats.tests;
     const badge = this.props.passed ?
-      <p style={styles.successBadge}>Success</p> :
-      <p style={styles.failedBadge}>Failures: {this.props.test.mgReporterObj.results.stats.failures}</p>
+      <div style={styles.badge}>
+        <p style={styles.success}>Success, { totalTests} Total Tests</p>
+      </div>
+      :
+      <div style={styles.badge}>
+        <p style={styles.failed}>{this.props.test.mgReporterObj.results.stats.failures} Failed, {totalTests} Total Tests</p>
+      </div>
 
     const showTagDisplay = this.props.showing ? "hide tags" : "show tags";
 
     return (
-      <div style={styles.headerStyle}>
-        <a target='_blank' style={styles.headerLinkStyle} href={this.props.test.link}>
-          {this.props.test.jobName} - [{this.props.test.timestamp}]
-        </a>
-        <a style={styles.toggleLink} onClick={this.update}>[{showTagDisplay}]</a>
+      <div style={styles.headerStyle} className='report-header'>
+        <div style={styles.testName}>
+          <a target='_blank' style={styles.testLink} href={this.props.test.link}>
+            {this.props.test.jobName}
+          </a>
+        </div>
+        <div style={styles.date}>
+           <p>{this.props.test.timestamp}</p>
+        </div>
+        <div style={styles.toggleTags}>
+          <a style={styles.toggle} onClick={this.update}>[{showTagDisplay}]</a>
+        </div>
         {badge}
       </div>
     )

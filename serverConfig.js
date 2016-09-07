@@ -8,9 +8,9 @@ module.exports = {
    pathToWorkspace : '/jenkins/workspace/', // file path to MG workspaces
    urlFolderName : 'ws', // folder name that gets inserted into the url between the job (dir) name and path to file.
    folderSubstr : 'Mecha*', // Substring used to search for projects that match MG inside workspace dir
-   pathToReport : '/lib/reporters/reporter/', // path inside of MG workspace to the report directory
+   pathToReport : '/lib/reporter/', // path inside of MG workspace to the report directory
    jsonFileName : 'testOutput.json', // name of the json file inside the MG workspace report dir
-   port : 9876 // port to run the mecha-aggro app on.
+   port : 80 // port to run the mecha-aggro app on.
 };
 
 // This *should work if you want to try it out locally :

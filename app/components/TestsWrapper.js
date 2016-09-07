@@ -2,7 +2,8 @@ import React from 'react';
 import TestContainer from './TestContainer';
 import uniq from 'lodash.uniq';
 import request from 'request';
-import styles from '../styles/testsWrapper'
+import teamJobs from '../teamJobs';
+import styles from '../styles/testsWrapper';
 
 class TestsWrapper extends React.Component {
   constructor(props) {
@@ -17,14 +18,14 @@ class TestsWrapper extends React.Component {
     }
   }
   componentWillMount() {
-    this.retrieveTests(`http://localhost:9876/tests/${this.props.env}/${this.props.team}`);
+      this.retrieveTests(`http://mg.intranet.1stdibs.com:/tests/${this.props.env}/${this.props.team}`);
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.env !== this.props.env) {
       //NOTE: This means that a new env was selected, and tests should be fetched
       this.setState({ currTests: [], loading: true });
-      this.retrieveTests(`http://localhost:9876/tests/${newProps.env}/${newProps.team}`);
+      this.retrieveTests(`http://mg.intranet.1stdibs.com/tests/${newProps.env}/${newProps.team}`);
     }
   }
 
@@ -38,10 +39,9 @@ class TestsWrapper extends React.Component {
   filterTests() {
     let testsHtml;
     if (this.state.loading) {
-      testsHtml = <h1 style={styles.message}>Loading...</h1>
+      testsHtml = <p style={styles.message}><img src='../images/mg_spinner.png' className='loader'></img></p>
     } else if (this.state.currTests.length > 0) {
       testsHtml = this.state.currTests.map((test) => {
-        let shouldReturn = true;
         let results = test.mgReporterObj.results;
         let row = <TestContainer key={test.jobName} test={test}></TestContainer>
 
@@ -49,15 +49,23 @@ class TestsWrapper extends React.Component {
         //If there is a search term and that search term is NOT contained in the string
         // of test names, do not return the result.
         if (this.props.searchTerm !== '' && tagNames.indexOf(this.props.searchTerm) < 0) {
-          shouldReturn = false;
+          return null;
         }
 
         //If the "Show Only Failing" is checked, and there were no failed results
         // do not return this test
         if (this.props.onlyFailing && results.stats.failures === 0) {
-          shouldReturn = false;
+          return null;
         }
-        return shouldReturn ? row : null;
+
+        // If the current team is all, always return the jobs
+        // Else, see if the job is contained in the array for the current team
+        // If it is not, result will be -1, and shouldReturn will be set to false
+        if (this.props.team !== 'all' && teamJobs[this.props.team].indexOf(test.jobName) < 0) {
+          return null;
+        }
+
+        return row;
       });
       const testsArray = uniq(testsHtml);
 
