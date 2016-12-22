@@ -26,7 +26,7 @@ function deploy(remote) {
 }
 
 plan.remote('initFolder', function (remote) {
-  remote.exec('git clone git@github.com:bhaze31/mecha-godzilla-aggro.git /opt/aggro');
+  remote.exec('git clone git@github.com:CSomerville/mecha-godzilla-aggro.git /opt/aggro');
 });
 
 //Fetches new updates to the repository,
