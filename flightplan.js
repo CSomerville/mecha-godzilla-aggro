@@ -37,7 +37,7 @@ plan.remote('deploy', function (remote) {
 });
 
 plan.remote('clearFolder', function (remote) {
-  remote.exec('rm -rf /opt/aggro/*');
+  remote.exec('rm -rf /opt/aggro');
 });
 
 //Stop the old process for the aggro reporter
