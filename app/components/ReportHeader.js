@@ -16,14 +16,16 @@ class ReportHeader extends React.Component {
     const { stats } = this.props.test.mgReporterObj.results;
     const total = stats.failures + stats.passes + stats.pending;
     const pending = stats.pending;
-    let failures = 0;
+    let failures;
     if (stats.rerunStats) {
       failures = stats.rerunStats.failures;
+    } else {
+      failures = stats.failures;
     }
     styles.testLink.color = failures === 0 ? '#3c763d' : '#a94442';
     const badge = failures === 0 ?
       <div style={styles.badge}>
-          <p style={styles.success}>Success, {pending > 0 && `${pending} Pending, `}{total} Total Tests</p>
+        <p style={styles.success}>Success, {pending > 0 && `${pending} Pending, `}{total} Total Tests</p>
       </div>
       :
       <div style={styles.badge}>
