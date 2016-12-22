@@ -13,15 +13,21 @@ class ReportHeader extends React.Component {
   }
 
   render() {
-    styles.testLink.color = this.props.passed ? '#3c763d' : '#a94442';
-    const totalTests = this.props.test.mgReporterObj.results.stats.tests;
-    const badge = this.props.passed ?
+    const { stats } = this.props.test.mgReporterObj.results;
+    const total = stats.failures + stats.passes + stats.pending;
+    const pending = stats.pending;
+    let failures = 0;
+    if (stats.rerunStats) {
+      failures = stats.rerunStats.failures;
+    }
+    styles.testLink.color = failures === 0 ? '#3c763d' : '#a94442';
+    const badge = failures === 0 ?
       <div style={styles.badge}>
-        <p style={styles.success}>Success, { totalTests} Total Tests</p>
+          <p style={styles.success}>Success, {pending > 0 && `${pending} Pending, `}{total} Total Tests</p>
       </div>
       :
       <div style={styles.badge}>
-        <p style={styles.failed}>{this.props.test.mgReporterObj.results.stats.failures} Failed, {totalTests} Total Tests</p>
+        <p style={styles.failed}>{failures} Failed, {pending > 0 && `${pending} Pending, `}{total} Total Tests</p>
       </div>
 
     const showTagDisplay = this.props.showing ? "hide tags" : "show tags";
